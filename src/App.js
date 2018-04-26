@@ -1,30 +1,47 @@
 import React, { Component } from "react";
+import moment from "moment";
+
 import DayCard from "./DayCard";
 
 import "./App.css";
 
+const d = new moment(new Date());
+
 class App extends Component {
   render() {
-    const d = new Date();
-    const weekday = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday"
-    ];
-
     return (
       <div className="App">
-        <DayCard day={weekday[d.getDay()]} />
-        <DayCard day={weekday[d.getDay() + 1]} />
-        <DayCard day={weekday[d.getDay() + 2]} />
-        <DayCard day={weekday[d.getDay() + 3]} />
-        <DayCard day={weekday[d.getDay() + 4]} />
-        <DayCard day={weekday[d.getDay() + 5]} />
-        <DayCard day={weekday[d.getDay() + 6]} />
+        <DayCard day={d.toString().substring(0, 4)} />
+        <DayCard
+          day={d
+            .add(1, "days")
+            .toString()
+            .substring(0, 4)}
+        />
+        <DayCard
+          day={d
+            .add(1, "days")
+            .toString()
+            .substring(0, 4)}
+        />
+        <DayCard
+          day={d
+            .add(1, "days")
+            .toString()
+            .substring(0, 4)}
+        />
+        <DayCard
+          day={d
+            .add(1, "days")
+            .toString()
+            .substring(0, 4)}
+        />
+        <DayCard
+          day={d
+            .add(1, "days")
+            .toString()
+            .substring(0, 4)}
+        />
       </div>
     );
   }
