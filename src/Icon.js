@@ -3,7 +3,7 @@ import logo from "./logo.svg";
 
 class Icon extends Component {
   render() {
-    return <img src={logo} />;
+    return <img src={logo} alt="weather" />;
   }
 }
 
