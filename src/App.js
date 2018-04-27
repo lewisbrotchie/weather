@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import moment from "moment";
+import axios from "axios";
 
+import api from "./Api";
 import DayCard from "./DayCard";
 
 import Logo from "./logo.svg";
@@ -8,8 +10,19 @@ import Logo from "./logo.svg";
 import "./App.css";
 
 const d = new moment(new Date());
+const url = `https://api.openweathermap.org/data/2.5/forecast?q=London,uk&mode=JSON&units=metric&APPID=${api}`;
 
 class App extends Component {
+  componentDidMount() {
+    axios
+      .get(url)
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error.toString());
+      });
+  }
   render() {
     return (
       <div className="App">
