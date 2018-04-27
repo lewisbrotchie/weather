@@ -16,8 +16,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tempHigh: 0,
-      tempLow: 0
+      tempHigh: [0, 0, 0, 0, 0, 0],
+      tempLow: [0, 0, 0, 0, 0, 0]
     };
   }
 
@@ -26,9 +26,16 @@ class App extends Component {
       .get(url)
       .then(response => {
         console.log(response);
-        this.setState({
-          tempHigh: Math.ceil(response.data.list[0].main.temp_max),
-          tempLow: Math.floor(response.data.list[0].main.temp_min)
+        this.state.tempHigh.forEach((element, index) => {
+          let newTemps = this.state.tempHigh.slice();
+          newTemps[index] = Math.ceil(response.data.list[index].main.temp_max);
+          this.setState({
+            tempHigh: newTemps
+          });
+          newTemps[index] = Math.ceil(response.data.list[index].main.temp_min);
+          this.setState({
+            tempLow: newTemps
+          });
         });
       })
       .catch(error => {
