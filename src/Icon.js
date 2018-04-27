@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
 
 class Icon extends Component {
   render() {
-    return <img src={logo} alt="weather" />;
+    return <img src={this.props.icon} alt="weather" />;
   }
 }
 
