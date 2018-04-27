@@ -13,11 +13,23 @@ const d = new moment(new Date());
 const url = `https://api.openweathermap.org/data/2.5/forecast?q=London,uk&mode=JSON&units=metric&APPID=${api}`;
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tempHigh: 0,
+      tempLow: 0
+    };
+  }
+
   componentDidMount() {
     axios
       .get(url)
       .then(response => {
-        console.log(response.data);
+        console.log(response);
+        this.setState({
+          tempHigh: Math.ceil(response.data.list[0].main.temp_max),
+          tempLow: Math.floor(response.data.list[0].main.temp_min)
+        });
       })
       .catch(error => {
         console.log(error.toString());
@@ -29,8 +41,8 @@ class App extends Component {
         <DayCard
           day={d.toString().substring(0, 4)}
           icon={Logo}
-          tempHigh="24"
-          tempLow="12"
+          tempHigh={"hi: " + this.state.tempHigh}
+          tempLow={"low: " + this.state.tempLow}
         />
         <DayCard
           day={d
