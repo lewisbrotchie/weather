@@ -9,8 +9,6 @@ import Logo from "./logo.svg";
 
 import "./App.css";
 
-const d = new moment(new Date());
-const today = new moment(new Date());
 const url = `https://api.openweathermap.org/data/2.5/forecast?q=London,uk&mode=JSON&units=metric&APPID=${api}`;
 
 class App extends Component {
@@ -18,13 +16,11 @@ class App extends Component {
     super(props);
     this.state = {
       cards: [0, 0, 0, 0, 0],
-      tempHigh: [],
-      tempLow: [0, 0, 0, 0, 0]
+      tempHigh: []
     };
   }
 
-  componentDidMount() {
-    let dataIndex = 0;
+  componentWillMount() {
     axios
       .get(url)
       .then(response => {
@@ -32,7 +28,6 @@ class App extends Component {
         const filtered = response.data.list.filter((item, index) => {
           return index % 8 === 0;
         });
-        console.log(filtered);
         const arr = [];
         filtered.forEach((element, index) => {
           arr.push(filtered[index].main.temp);
@@ -46,28 +41,22 @@ class App extends Component {
       });
   }
   render() {
-    //tomorrow + onwards
-    let today = true;
-    const cards = this.state.cards.map((card, index) => {
-      return today ? (
-        <DayCard
-          day={d.toString().substring(0, 4)}
-          icon={Logo}
-          tempHigh={this.state.tempHigh[index]}
-        />
-      ) : (
-        <DayCard
-          day={d
-            .add(1, "days")
-            .toString()
-            .substring(0, 4)}
-          icon={Logo}
-          tempHigh={this.state.tempHigh[index]}
-        />
-      );
-      today = false;
-    });
-    return <div className="App">{cards}</div>;
+    return (
+      <div className="App">
+        {this.state.cards.map((card, index) => {
+          return (
+            <DayCard
+              day={moment()
+                .add(index, "days")
+                .toString()
+                .substring(0, 4)}
+              icon={Logo}
+              tempHigh={this.state.tempHigh[index]}
+            />
+          );
+        })}
+      </div>
+    );
   }
 }
 

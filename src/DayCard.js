@@ -11,7 +11,7 @@ class DayCard extends Component {
       <div className="card">
         {this.props.day}
         <Icon icon={this.props.icon} />
-        <Temp tempHigh={this.props.tempHigh} tempLow={this.props.tempLow} />
+        <Temp tempHigh={this.props.tempHigh} />
       </div>
     );
   }
