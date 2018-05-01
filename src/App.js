@@ -17,8 +17,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cards: [0, 0, 0, 0],
-      tempHigh: [0, 0, 0, 0, 0],
+      cards: [0, 0, 0, 0, 0],
+      tempHigh: [],
       tempLow: [0, 0, 0, 0, 0]
     };
   }
@@ -30,16 +30,16 @@ class App extends Component {
       .then(response => {
         console.log(response);
         const filtered = response.data.list.filter((item, index) => {
-          return (
-            response.data.list[index].id ===
-            (response.data.list[index].id / 8) % 0
-          );
+          return index % 8 === 0;
         });
         console.log(filtered);
-        const tempHigh = this.state.tempHigh.map((temp, index) => {
-          return response.data.list[dataIndex].main.temp_max;
+        const arr = [];
+        filtered.forEach((element, index) => {
+          arr.push(filtered[index].main.temp);
         });
-        console.log(tempHigh);
+        this.setState({
+          tempHigh: arr
+        });
       })
       .catch(error => {
         console.log(error.toString());
@@ -47,30 +47,27 @@ class App extends Component {
   }
   render() {
     //tomorrow + onwards
+    let today = true;
     const cards = this.state.cards.map((card, index) => {
-      return (
+      return today ? (
+        <DayCard
+          day={d.toString().substring(0, 4)}
+          icon={Logo}
+          tempHigh={this.state.tempHigh[index]}
+        />
+      ) : (
         <DayCard
           day={d
             .add(1, "days")
             .toString()
             .substring(0, 4)}
           icon={Logo}
-          tempHigh={"hi: " + this.state.tempHigh[index]}
-          tempLow={"lo: " + this.state.tempLow[index]}
+          tempHigh={this.state.tempHigh[index]}
         />
       );
+      today = false;
     });
-    return (
-      <div className="App">
-        <DayCard
-          day={today.toString().substring(0, 4) + "(Today)"}
-          icon={Logo}
-          tempHigh={"hi: " + this.state.tempHigh[0]}
-          tempLow={"low: " + this.state.tempLow[0]}
-        />
-        {cards}
-      </div>
-    );
+    return <div className="App">{cards}</div>;
   }
 }
 
