@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 
+import "./WeatherIcons/weather-icons.min.css";
+
 class Icon extends Component {
   render() {
-    return <img src={this.props.icon} alt="weather" />;
+    return <i className={this.props.icon} />;
   }
 }
 

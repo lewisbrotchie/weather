@@ -2,12 +2,10 @@ import React, { Component } from "react";
 import moment from "moment";
 import axios from "axios";
 
-import "./WeatherIcons/weather-icons.min.css";
+import weatherIcons from "./icons.json";
 
 import api from "./Api";
 import DayCard from "./DayCard";
-
-import Logo from "./logo.svg";
 
 import "./App.css";
 
@@ -17,6 +15,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      icon: [],
       cards: [0, 0, 0, 0, 0],
       tempHigh: []
     };
@@ -30,18 +29,24 @@ class App extends Component {
         const filtered = response.data.list.filter((element, index) => {
           return index % 8 === 0;
         });
-        const arr = [];
+        const arr = [],
+          icons = [];
         filtered.forEach((element, index) => {
           arr.push(filtered[index].main.temp);
+          icons.push(
+            "wi wi-day-" + weatherIcons[filtered[index].weather[0].id].icon
+          );
         });
         this.setState({
-          tempHigh: arr
+          tempHigh: arr,
+          icon: icons
         });
       })
       .catch(error => {
         console.log(error.toString());
       });
   }
+
   render() {
     return (
       <div className="App">
@@ -52,8 +57,8 @@ class App extends Component {
                 .add(index, "days")
                 .toString()
                 .substring(0, 4)}
-              icon={Logo}
-              tempHigh={this.state.tempHigh[index]}
+              icon={this.state.icon[index]}
+              tempHigh={this.state.tempHigh[index] || "loading..."}
             />
           );
         })}
