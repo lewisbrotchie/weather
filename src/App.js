@@ -49,19 +49,23 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        {this.state.cards.map((card, index) => {
-          return (
-            <DayCard
-              day={moment()
-                .add(index, "days")
-                .toString()
-                .substring(0, 4)}
-              icon={this.state.icon[index]}
-              tempHigh={this.state.tempHigh[index] || "loading..."}
-            />
-          );
-        })}
+      <div>
+        <h1 align="center">London Weather</h1>
+        <div className="Cards">
+          {this.state.cards.map((card, index) => {
+            return (
+              <DayCard
+                day={moment()
+                  .add(index, "days")
+                  .toString()
+                  .substring(0, 4)}
+                icon={this.state.icon[index]}
+                tempHigh={this.state.tempHigh[index] || "loading..."}
+                key={index}
+              />
+            );
+          })}
+        </div>
       </div>
     );
   }
