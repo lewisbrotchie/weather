@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import moment from "moment";
 import axios from "axios";
 
+import "./WeatherIcons/weather-icons.min.css";
+
 import api from "./Api";
 import DayCard from "./DayCard";
 
@@ -25,7 +27,7 @@ class App extends Component {
       .get(url)
       .then(response => {
         console.log(response);
-        const filtered = response.data.list.filter((item, index) => {
+        const filtered = response.data.list.filter((element, index) => {
           return index % 8 === 0;
         });
         const arr = [];
