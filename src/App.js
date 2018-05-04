@@ -9,12 +9,11 @@ import DayCard from "./DayCard";
 
 import "./App.css";
 
-const url = `https://api.openweathermap.org/data/2.5/forecast?q=London,uk&mode=JSON&units=metric&APPID=${api}`;
-
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      country: " ",
       cityName: " ",
       located: false,
       latitude: 0,
@@ -26,12 +25,14 @@ class App extends Component {
   }
 
   componentWillMount() {
+    const defaultURL = `https://api.openweathermap.org/data/2.5/forecast?q=London,uk&mode=JSON&units=metric&APPID=${api}`;
+
     const locatedURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${
       this.state.latitude
     }&lon=${this.state.longitude}&mode=JSON&units=metric&APPID=${api}`;
 
     axios
-      .get(this.state.located ? locatedURL : url)
+      .get(this.state.located ? locatedURL : defaultURL)
       .then(response => {
         console.log(response);
         const filtered = response.data.list.filter((element, index) => {
@@ -46,6 +47,7 @@ class App extends Component {
           );
         });
         this.setState({
+          country: response.data.city.country,
           cityName: response.data.city.name,
           tempHigh: arr,
           icon: icons
@@ -79,7 +81,9 @@ class App extends Component {
   render() {
     return (
       <div>
-        <h1 align="center">{this.state.cityName}</h1>
+        <h1 align="center">
+          {this.state.cityName}, {this.state.country}
+        </h1>
         <div
           style={{ display: "flex", justifyContent: "center", margin: "2%" }}
         >
@@ -88,7 +92,7 @@ class App extends Component {
               this.componentWillMount();
             }}
           >
-            Locate me, bitch
+            Locate me
           </button>
         </div>
         <div className="Cards">
